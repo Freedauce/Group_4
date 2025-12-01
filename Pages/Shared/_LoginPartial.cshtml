@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Exam.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                <span style="margin-right: 8px;">👤</span>
+                @User.Identity?.Name
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" asp-page="/User">👤 My Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+
+                @if (User.IsInRole("admin"))
+                {
+                    <li><a class="dropdown-item" asp-page="/Admin">👨‍💼 Admin Dashboard</a></li>
+                }
+                else if (User.IsInRole("manager"))
+                {
+                    <li><a class="dropdown-item" asp-page="/Manager">🔧 Manager Dashboard</a></li>
+                }
+                else if (User.IsInRole("client"))
+                {
+                    <li><a class="dropdown-item" asp-page="/Client">🚗 Browse Cars</a></li>
+                }
+
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                        <button type="submit" class="dropdown-item text-danger" style="border: none; background: none; cursor: pointer; width: 100%; text-align: left;">
+                            🚪 Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register" style="color: white;">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login" style="color: white;">Login</a>
+        </li>
+    }
+</ul>

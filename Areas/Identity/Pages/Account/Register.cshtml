@@ -1,0 +1,257 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    .register-container {
+        max-width: 600px;
+        margin: 50px auto;
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .register-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .register-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .register-subtitle {
+        color: #7f8c8d;
+        font-size: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 0.95rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+    .role-selection {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .role-option {
+        position: relative;
+    }
+
+        .role-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+    .role-card {
+        padding: 20px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: white;
+    }
+
+    .role-option input[type="radio"]:checked + .role-card {
+        border-color: #3498db;
+        background: #f0f8ff;
+    }
+
+    .role-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .role-name {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+
+    .role-description {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+    }
+
+    .manager-card .role-icon {
+        color: #3498db;
+    }
+
+    .client-card .role-icon {
+        color: #2ecc71;
+    }
+
+    .btn-register {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.3s;
+    }
+
+        .btn-register:hover {
+            opacity: 0.9;
+        }
+
+    .validation-summary {
+        background: #fee;
+        border-left: 4px solid #e74c3c;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+        .validation-summary ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .validation-summary li {
+            color: #c0392b;
+        }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #7f8c8d;
+    }
+
+        .login-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+            .login-link a:hover {
+                text-decoration: underline;
+            }
+
+    .text-danger {
+        color: #e74c3c;
+        font-size: 0.85rem;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="register-container">
+    <div class="register-header">
+        <h1 class="register-title">Create Account</h1>
+        <p class="register-subtitle">Join our car rental service today</p>
+    </div>
+
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+        <div class="form-group">
+            <label class="form-label">Select Your Role</label>
+            <div class="role-selection">
+                <div class="role-option">
+                    <input type="radio" asp-for="Input.Role" value="manager" id="roleManager" />
+                    <label for="roleManager" class="role-card manager-card">
+                        <div class="role-icon">🔧</div>
+                        <div class="role-name">Manager</div>
+                        <div class="role-description">Manage fleet & bookings</div>
+                    </label>
+                </div>
+
+                <div class="role-option">
+                    <input type="radio" asp-for="Input.Role" value="client" id="roleClient" checked />
+                    <label for="roleClient" class="role-card client-card">
+                        <div class="role-icon">🙋‍♂️</div>
+                        <div class="role-name">Client</div>
+                        <div class="role-description">Book & rent cars</div>
+                    </label>
+                </div>
+            </div>
+            <span asp-validation-for="Input.Role" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.FirstName" class="form-label">First Name</label>
+            <input asp-for="Input.FirstName" class="form-control" placeholder="Enter your first name" />
+            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.LastName" class="form-label">Last Name</label>
+            <input asp-for="Input.LastName" class="form-control" placeholder="Enter your last name" />
+            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.Email" class="form-label">Email</label>
+            <input asp-for="Input.Email" class="form-control" placeholder="your.email@example.com" autocomplete="username" />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.PhoneNumber" class="form-label">Phone Number</label>
+            <input asp-for="Input.PhoneNumber" class="form-control" placeholder="+250 xxx xxx xxx" />
+            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.Address" class="form-label">Address</label>
+            <input asp-for="Input.Address" class="form-control" placeholder="Enter your address" />
+            <span asp-validation-for="Input.Address" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.Password" class="form-label">Password</label>
+            <input asp-for="Input.Password" class="form-control" placeholder="Create a strong password" autocomplete="new-password" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
+            <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm your password" autocomplete="new-password" />
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn-register">Create Account</button>
+
+        <div class="login-link">
+            Already have an account? <a asp-area="Identity" asp-page="/Account/Login">Login here</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

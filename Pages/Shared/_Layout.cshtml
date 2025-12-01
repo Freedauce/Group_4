@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Car Rental System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Exam.styles.css" asp-append-version="true" />
+    <style>
+        /* BASE LAYOUT */
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* COMPACT NAVY BLUE HEADER */
+        .navbar {
+            padding: 0.5rem 0;
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%) !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            margin-bottom: 0 !important;
+            position: relative; /* Changed from sticky/fixed */
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white !important;
+            padding: 0.3rem 0;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            margin: 0 8px;
+            padding: 0.4rem 0.8rem !important;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+            .navbar-nav .nav-link:hover {
+                color: white !important;
+                background: rgba(255,255,255,0.1);
+                border-radius: 5px;
+            }
+
+        /* Authentication Buttons - Compact */
+        .btn-login {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.8);
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+
+            .btn-login:hover {
+                background: white;
+                color: #1e3a8a;
+                border-color: white;
+            }
+
+        .btn-register {
+            background: white;
+            color: #1e3a8a;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 10px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            display: inline-block;
+            border: 2px solid white;
+        }
+
+            .btn-register:hover {
+                background: #1e3a8a;
+                color: white;
+                transform: translateY(-1px);
+            }
+
+        /* User Dropdown - Compact */
+        .user-dropdown .nav-link {
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 0.4rem 1rem !important;
+            font-size: 0.95rem;
+        }
+
+            .user-dropdown .nav-link:hover {
+                background: rgba(255,255,255,0.25);
+            }
+
+        .dropdown-menu {
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border: none;
+            margin-top: 8px;
+            min-width: 220px; /* Increased from 200px */
+            padding: 8px 0; /* Added padding */
+        }
+
+        .dropdown-item {
+            padding: 12px 20px; /* Increased from 10px 18px */
+            transition: background 0.2s;
+            font-size: 0.95rem;
+            white-space: nowrap; /* Prevents text wrapping */
+            cursor: pointer; /* Shows pointer cursor */
+        }
+
+            .dropdown-item:hover {
+                background: #f0f7ff;
+            }
+
+        .dropdown-divider {
+            margin: 8px 0; /* Added spacing around dividers */
+        }
+
+        /* Fix for dropdown button styling */
+        .dropdown-item.text-danger {
+            color: #dc3545 !important;
+        }
+
+            .dropdown-item.text-danger:hover {
+                background: #ffebee;
+            }
+
+        /* MAIN CONTENT AREA */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 15px;
+        }
+
+        /* Navbar toggler for mobile */
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Responsive adjustments */
+        @@media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+
+            .btn-login, .btn-register {
+                padding: 0.3rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">🚗 Car Rental</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Privacy">About</a>
+                        </li>
+                    </ul>
+
+                    @* Authentication Section *@
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav user-dropdown">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span style="margin-right: 5px;">👤</span>
+                                    @User.Identity.Name
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="/User">👤 My Profile</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    @if (User.IsInRole("admin"))
+                                    {
+                                        <li><a class="dropdown-item" href="/Admin">👨‍💼 Admin Dashboard</a></li>
+                                    }
+                                    else if (User.IsInRole("manager"))
+                                    {
+                                        <li><a class="dropdown-item" href="/Manager">🔧 Manager Dashboard</a></li>
+                                    }
+                                    else if (User.IsInRole("client"))
+                                    {
+                                        <li><a class="dropdown-item" href="/Client">🚗 Browse Cars</a></li>
+                                    }
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form method="post" asp-area="Identity" asp-page="/Account/Logout" style="margin: 0;">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="dropdown-item text-danger"
+                                                    style="border: none; background: none; cursor: pointer; width: 100%; text-align: left;">
+                                                🚪 Logout
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <a href="/Identity/Account/Login" class="btn-login">Login</a>
+                            <a href="/Identity/Account/Register" class="btn-register">Register</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main content area -->
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

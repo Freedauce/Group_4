@@ -1,0 +1,568 @@
+﻿@page
+@model AdminModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<style>
+    .admin-header {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        color: white;
+        padding: 40px 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+    
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .metric-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        border-top: 4px solid #e74c3c;
+    }
+    
+    .metric-value {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #e74c3c;
+        margin-bottom: 10px;
+    }
+    
+    .metric-label {
+        color: #7f8c8d;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .section-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+    
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0;
+    }
+    
+    .users-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .users-table thead {
+        background: #f8f9fa;
+    }
+    
+    .users-table th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        color: #2c3e50;
+        border-bottom: 2px solid #dee2e6;
+    }
+    
+    .users-table td {
+        padding: 15px;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .users-table tbody tr:hover {
+        background: #f8f9fa;
+    }
+    
+    .role-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+    
+    .role-admin {
+        background: #e74c3c;
+        color: white;
+    }
+    
+    .role-manager {
+        background: #3498db;
+        color: white;
+    }
+    
+    .role-client {
+        background: #2ecc71;
+        color: white;
+    }
+    
+    .btn-action {
+        padding: 6px 15px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.85rem;
+        margin-right: 5px;
+        transition: opacity 0.3s;
+    }
+    
+    .btn-action:hover {
+        opacity: 0.8;
+    }
+    
+    .btn-edit {
+        background: #3498db;
+        color: white;
+    }
+    
+    .btn-delete {
+        background: #e74c3c;
+        color: white;
+    }
+    
+    .system-performance {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    
+    .performance-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #e74c3c;
+    }
+    
+    .perf-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .perf-label {
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        font-weight: 600;
+    }
+    
+    .perf-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+    
+    .progress-bar {
+        height: 8px;
+        background: #dee2e6;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
+        transition: width 0.3s;
+    }
+    
+    .activity-log {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .log-item {
+        padding: 15px;
+        background: #f8f9fa;
+        border-left: 3px solid #3498db;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+    
+    .log-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+    }
+    
+    .log-action {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    
+    .log-time {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+    }
+    
+    .log-details {
+        font-size: 0.9rem;
+        color: #555;
+    }
+    
+    .log-user {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+        margin-top: 5px;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin-top: 20px;
+    }
+    
+    .btn-primary-custom {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        border: none;
+        padding: 10px 25px;
+        border-radius: 25px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.3s;
+    }
+    
+    .btn-primary-custom:hover {
+        opacity: 0.9;
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+    }
+    
+    .modal-content {
+        background: white;
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 500px;
+    }
+    
+    .close {
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #aaa;
+    }
+    
+    .close:hover {
+        color: #000;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    
+    select.form-control {
+        cursor: pointer;
+    }
+</style>
+
+<div class="admin-header">
+    <h1>👨‍💼 Admin Dashboard</h1>
+    <p>Complete system oversight and management</p>
+</div>
+
+<!-- Key Metrics -->
+<div class="metrics-grid">
+    <div class="metric-card">
+        <div class="metric-value">@Model.TotalUsers</div>
+        <div class="metric-label">Total Users</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">@Model.TotalManagers</div>
+        <div class="metric-label">Managers</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">@Model.TotalClients</div>
+        <div class="metric-label">Clients</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">@Model.TotalBookings</div>
+        <div class="metric-label">Total Bookings</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">@Model.TotalRevenue.ToString("N0")</div>
+        <div class="metric-label">Revenue (RWF)</div>
+    </div>
+</div>
+
+<!-- User Management -->
+<div class="section-card">
+    <div class="section-header">
+        <h3 class="section-title">User Management</h3>
+        <button class="btn-primary-custom" onclick="openAddUserModal()">
+            + Add New User
+        </button>
+    </div>
+    
+    <div style="overflow-x: auto;">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var user in Model.Users)
+                {
+                    <tr>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>
+                            <span class="role-badge role-@user.Role.ToLower()">@user.Role</span>
+                        </td>
+                        <td>@user.CreatedAt.ToString("MMM dd, yyyy")</td>
+                        <td>
+                            <button class="btn-action btn-edit" onclick="editUser('@user.Id', '@user.UserName', '@user.Email', '@user.Role')">
+                                Edit
+                            </button>
+                            <button class="btn-action btn-delete" onclick="deleteUser('@user.Id', '@user.UserName')">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- System Performance -->
+<div class="section-card">
+    <h3 class="section-title">System Performance</h3>
+    <div class="system-performance">
+        <div class="performance-card">
+            <div class="perf-header">
+                <span class="perf-label">CPU Usage</span>
+                <span class="perf-value">@Model.CpuUsage%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: @Model.CpuUsage%"></div>
+            </div>
+        </div>
+        
+        <div class="performance-card">
+            <div class="perf-header">
+                <span class="perf-label">Memory Usage</span>
+                <span class="perf-value">@Model.MemoryUsage%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: @Model.MemoryUsage%"></div>
+            </div>
+        </div>
+        
+        <div class="performance-card">
+            <div class="perf-header">
+                <span class="perf-label">Active Sessions</span>
+                <span class="perf-value">@Model.ActiveSessions</span>
+            </div>
+            <div style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">
+                Last hour activity
+            </div>
+        </div>
+        
+        <div class="performance-card">
+            <div class="perf-header">
+                <span class="perf-label">System Uptime</span>
+                <span class="perf-value" style="font-size: 1.3rem;">@Model.SystemUptime</span>
+            </div>
+            <div style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">
+                Days : Hours : Minutes
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity Log -->
+<div class="section-card">
+    <h3 class="section-title">Recent System Activity</h3>
+    <div class="activity-log">
+        @foreach(var log in Model.RecentLogs)
+        {
+            <div class="log-item">
+                <div class="log-header">
+                    <span class="log-action">@log.Action</span>
+                    <span class="log-time">@log.CreatedAt.ToString("MMM dd, HH:mm")</span>
+                </div>
+                <div class="log-details">@log.Details</div>
+                <div class="log-user">User: @log.UserName | IP: @log.IpAddress</div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Add User Modal -->
+<div id="addUserModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeAddUserModal()">&times;</span>
+        <h2>Add New User</h2>
+        <form method="post" asp-page-handler="AddUser">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="UserName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="Email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="Password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select name="Role" class="form-control" required>
+                    <option value="client">Client</option>
+                    <option value="manager">Manager</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary-custom" style="width: 100%;">
+                Create User
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div id="editUserModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeEditUserModal()">&times;</span>
+        <h2>Edit User</h2>
+        <form method="post" asp-page-handler="EditUser">
+            <input type="hidden" name="UserId" id="editUserId">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="UserName" id="editUserName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="Email" id="editEmail" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select name="Role" id="editRole" class="form-control" required>
+                    <option value="client">Client</option>
+                    <option value="manager">Manager</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary-custom" style="width: 100%;">
+                Update User
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openAddUserModal() {
+        document.getElementById('addUserModal').style.display = 'block';
+    }
+    
+    function closeAddUserModal() {
+        document.getElementById('addUserModal').style.display = 'none';
+    }
+    
+    function openEditUserModal() {
+        document.getElementById('editUserModal').style.display = 'block';
+    }
+    
+    function closeEditUserModal() {
+        document.getElementById('editUserModal').style.display = 'none';
+    }
+    
+    function editUser(userId, userName, email, role) {
+        document.getElementById('editUserId').value = userId;
+        document.getElementById('editUserName').value = userName;
+        document.getElementById('editEmail').value = email;
+        document.getElementById('editRole').value = role.toLowerCase();
+        openEditUserModal();
+    }
+    
+    function deleteUser(userId, userName) {
+        if(confirm(`Are you sure you want to delete user "${userName}"?`)) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/Admin?handler=DeleteUser';
+            
+            const userInput = document.createElement('input');
+            userInput.type = 'hidden';
+            userInput.name = 'userId';
+            userInput.value = userId;
+            
+            const token = document.querySelector('input[name="__RequestVerificationToken"]');
+            const tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = '__RequestVerificationToken';
+            tokenInput.value = token.value;
+            
+            form.appendChild(userInput);
+            form.appendChild(tokenInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+    
+    window.onclick = function(event) {
+        const addModal = document.getElementById('addUserModal');
+        const editModal = document.getElementById('editUserModal');
+        if (event.target == addModal) {
+            addModal.style.display = "none";
+        }
+        if (event.target == editModal) {
+            editModal.style.display = "none";
+        }
+    }
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

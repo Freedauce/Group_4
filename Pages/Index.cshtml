@@ -1,0 +1,503 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<style>
+    /* --- COLOR PALETTE ---
+           Primary Color (Accent): #FF8C00 (Dark Orange)
+           Secondary Color (Text/Background): #1C1C1C (Near Black)
+           Base Text: #E0E0E0 (Light Grey)
+        */
+    :root {
+        --color-primary: #FF8C00; /* Dark Orange */
+        --color-secondary: #FF4500; /* Orange Red for gradient end */
+        --color-background-dark: #1C1C1C;
+        --color-text-light: #E0E0E0;
+        --color-text-dim: #A9A9A9;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: var(--color-background-dark);
+        color: var(--color-text-light);
+    }
+
+    .hero-section {
+        position: relative;
+        height: 600px;
+        /* NOTE: Ensure /wwwroot/images/image1.png exists, or use a CDN link/placeholder */
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(28, 28, 28, 0.8)), url('/images/image1.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: -20px -15px 0 -15px;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        text-align: center;
+        z-index: 2;
+        max-width: 900px;
+        padding: 0 20px;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+        letter-spacing: 2px;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 40px;
+        font-weight: 300;
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        color: var(--color-text-light);
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-hero {
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-block;
+        border: 2px solid transparent;
+    }
+
+    .btn-primary-hero {
+        /* Orange Gradient Primary */
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+        color: var(--color-background-dark);
+        box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+    }
+
+        .btn-primary-hero:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.6);
+            color: var(--color-background-dark);
+        }
+
+    .btn-secondary-hero {
+        background: transparent;
+        color: var(--color-text-light);
+        border: 3px solid var(--color-text-light);
+    }
+
+        .btn-secondary-hero:hover {
+            background: var(--color-primary);
+            color: var(--color-background-dark);
+            border-color: var(--color-primary);
+            transform: translateY(-3px);
+        }
+
+    .stats-section {
+        background: var(--color-background-dark);
+        padding: 60px 20px;
+        margin-top: -50px;
+        border-radius: 20px;
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+        position: relative;
+        z-index: 3;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        /* Orange Gradient Text */
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .stat-label {
+        font-size: 1.1rem;
+        color: var(--color-text-dim);
+        font-weight: 600;
+        margin-top: 10px;
+    }
+
+    .services-section {
+        padding: 80px 20px;
+        background: #121212; /* Slightly less dark background for contrast */
+        color: var(--color-text-light);
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--color-text-light);
+        margin-bottom: 15px;
+    }
+
+    .section-subtitle {
+        text-align: center;
+        font-size: 1.2rem;
+        color: var(--color-text-dim);
+        margin-bottom: 50px;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .service-card {
+        background: var(--color-background-dark);
+        border-radius: 20px;
+        padding: 40px 30px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        transition: all 0.3s;
+        border: 2px solid transparent;
+    }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border-color: var(--color-primary);
+        }
+
+    .service-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        color: var(--color-primary); /* Use primary color for icons */
+    }
+
+    .service-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-text-light);
+        margin-bottom: 15px;
+    }
+
+    .service-description {
+        color: var(--color-text-dim);
+        line-height: 1.8;
+        font-size: 1rem;
+    }
+
+    .cta-section {
+        /* Orange Gradient CTA Background */
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+        color: var(--color-background-dark);
+        padding: 80px 20px;
+        text-align: center;
+    }
+
+    .cta-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .cta-text {
+        font-size: 1.3rem;
+        margin-bottom: 40px;
+        opacity: 0.95;
+    }
+
+    .features-section {
+        padding: 80px 20px;
+        background: var(--color-background-dark);
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: flex-start;
+        padding: 20px;
+        background: #121212; /* Slightly less dark background for contrast */
+        border-radius: 15px;
+        transition: all 0.3s;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+    }
+
+        .feature-item:hover {
+            background: var(--color-background-dark);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+            border: 1px solid var(--color-primary);
+        }
+
+    .feature-icon-box {
+        font-size: 2.5rem;
+        margin-right: 20px;
+        flex-shrink: 0;
+        color: var(--color-primary); /* Use primary color for icons */
+    }
+
+    .feature-content {
+        flex: 1;
+    }
+
+    .feature-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--color-text-light);
+        margin-bottom: 8px;
+    }
+
+    .feature-text {
+        color: var(--color-text-dim);
+        line-height: 1.6;
+    }
+
+    @@media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+
+        .hero-section {
+            height: 500px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<!-- Hero Section with BMW Image -->
+<div class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">Drive Your Dreams</h1>
+        <p class="hero-subtitle">Premium car rental service with luxury vehicles and exceptional customer experience</p>
+        <div class="hero-buttons">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <!-- Links for Logged-In Users -->
+                @if (User.IsInRole("Manager"))
+                {
+                    <a href="/Manager" class="btn-hero btn-primary-hero">Go to Dashboard</a>
+                }
+                else if (User.IsInRole("Client"))
+                {
+                    <a href="/Client" class="btn-hero btn-primary-hero">Browse Cars</a>
+                }
+                else if (User.IsInRole("Admin"))
+                {
+                    <a href="/Admin" class="btn-hero btn-primary-hero">Admin Panel</a>
+                }
+            }
+            else
+            {
+                <!-- Links for Logged-Out Users -->
+                <a href="/Identity/Account/Register" class="btn-hero btn-primary-hero">Get Started</a>
+                <a href="/Client" class="btn-hero btn-secondary-hero">View Cars</a>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Stats Section -->
+    <div class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Premium Cars</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">Happy Clients</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Customer Support</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Satisfaction Rate</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Services Section -->
+<div class="services-section">
+    <h2 class="section-title">Our Services</h2>
+    <p class="section-subtitle">Everything you need for a perfect rental experience</p>
+
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="service-icon">🚗</div>
+            <h3 class="service-title">Wide Selection</h3>
+            <p class="service-description">Choose from our diverse fleet of luxury, economy, and SUV vehicles. We have the perfect car for every occasion and budget.</p>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">💰</div>
+            <h3 class="service-title">Best Prices</h3>
+            <p class="service-description">Competitive rates with special discounts for long-term rentals. Book 3+ cars and get 20% off your total booking!</p>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">⚡</div>
+            <h3 class="service-title">Instant Booking</h3>
+            <p class="service-description">Quick and easy booking process with instant confirmation. Pay just 20% deposit to secure your reservation.</p>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">🔒</div>
+            <h3 class="service-title">Secure Payments</h3>
+            <p class="service-description">Your transactions are protected with our secure payment system. Multiple payment options available for your convenience.</p>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">🛡️</div>
+            <h3 class="service-title">Full Insurance</h3>
+            <p class="service-description">All our vehicles come with comprehensive insurance coverage for your peace of mind during your rental period.</p>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">📱</div>
+            <h3 class="service-title">24/7 Support</h3>
+            <p class="service-description">Our dedicated support team is available round the clock to assist you with any questions or concerns.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="features-section">
+    <h2 class="section-title">Why Choose Us?</h2>
+    <p class="section-subtitle">Experience excellence in every journey</p>
+
+    <div class="features-grid">
+        <div class="feature-item">
+            <div class="feature-icon-box">✨</div>
+            <div class="feature-content">
+                <h4 class="feature-title">Quality Vehicles</h4>
+                <p class="feature-text">All cars are regularly serviced and maintained to the highest standards.</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-icon-box">👨‍💼</div>
+            <div class="feature-content">
+                <h4 class="feature-title">Professional Service</h4>
+                <p class="feature-text">Experienced team dedicated to providing exceptional customer service.</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-icon-box">📍</div>
+            <div class="feature-content">
+                <h4 class="feature-title">Convenient Locations</h4>
+                <p class="feature-text">Multiple pickup and drop-off points across the city for your convenience.</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-icon-box">🎯</div>
+            <div class="feature-content">
+                <h4 class="feature-title">Flexible Terms</h4>
+                <p class="feature-text">Flexible rental periods from hourly to monthly options available.</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-icon-box">💳</div>
+            <div class="feature-content">
+                <h4 class="feature-title">Easy Payment</h4>
+                <p class="feature-text">Multiple payment methods accepted with secure transaction processing.</p>
+            </div>
+        </div>
+
+        <div class="feature-item">
+            <div class="feature-icon-box">🏆</div>
+            <div class="feature-content">
+                <h4 class="feature-title">Award Winning</h4>
+                <p class="feature-text">Recognized for excellence in customer satisfaction and service quality.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="cta-section">
+    <div class="container">
+        <h2 class="cta-title">Ready to Start Your Journey?</h2>
+        <p class="cta-text">Join thousands of satisfied customers who trust us with their car rental needs</p>
+        @if (User.Identity.IsAuthenticated)
+        {
+            @if (User.IsInRole("Client"))
+            {
+                <a href="/Client" class="btn-hero btn-secondary-hero" style="color: var(--color-background-dark); border-color: var(--color-background-dark);">Browse Our Fleet</a>
+            }
+            else if (User.IsInRole("Manager"))
+            {
+                <a href="/Manager" class="btn-hero btn-secondary-hero" style="color: var(--color-background-dark); border-color: var(--color-background-dark);">Manage Your Fleet</a>
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                <a href="/Admin" class="btn-hero btn-secondary-hero" style="color: var(--color-background-dark); border-color: var(--color-background-dark);">Admin Dashboard</a>
+            }
+        }
+        else
+        {
+            <div class="hero-buttons">
+                <a href="/Identity/Account/Register" class="btn-hero btn-secondary-hero" style="color: var(--color-background-dark); border-color: var(--color-background-dark);">Register Now</a>
+                <a href="/Identity/Account/Login" class="btn-hero" style="background: var(--color-background-dark); color: var(--color-primary); border: 2px solid var(--color-background-dark);">Login</a>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,772 @@
+﻿@page
+@model Exam.Pages.ClientModel
+@{
+    ViewData["Title"] = "Client Portal";
+}
+
+<style>
+    .client-header {
+        background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        color: white;
+        padding: 40px 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+    .promo-banner {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .promo-icon {
+        font-size: 2.5rem;
+    }
+
+    .promo-text {
+        flex: 1;
+    }
+
+    .promo-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #856404;
+        margin-bottom: 5px;
+    }
+
+    .promo-description {
+        color: #856404;
+        margin: 0;
+    }
+
+    .cars-section {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+    .car-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 25px;
+        margin-top: 25px;
+    }
+
+    .car-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+        background: white;
+    }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+    .car-image {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .car-body {
+        padding: 20px;
+    }
+
+    .car-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .car-specs {
+        color: #7f8c8d;
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    .car-price {
+        font-size: 1.8rem;
+        color: #2ecc71;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+        .car-price small {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            font-weight: 400;
+        }
+
+    .btn-book {
+        width: 100%;
+        background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.3s;
+    }
+
+        .btn-book:hover {
+            opacity: 0.9;
+        }
+
+    .my-bookings {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .booking-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        background: #fafafa;
+    }
+
+    .booking-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .booking-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .status-badge {
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .status-pending {
+        background: #ffc107;
+        color: #856404;
+    }
+
+    .status-approved {
+        background: #2ecc71;
+        color: white;
+    }
+
+    .status-rejected {
+        background: #e74c3c;
+        color: white;
+    }
+
+    .booking-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin: 15px 0;
+    }
+
+    .detail-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detail-label {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+        margin-bottom: 3px;
+    }
+
+    .detail-value {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .payment-section {
+        background: #e8f5e9;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 15px;
+    }
+
+    .payment-code-box {
+        background: white;
+        padding: 15px;
+        border-radius: 5px;
+        text-align: center;
+        margin: 10px 0;
+        border: 2px dashed #2ecc71;
+    }
+
+    .payment-code {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2ecc71;
+        letter-spacing: 2px;
+    }
+
+    .btn-confirm-payment {
+        background: #2ecc71;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.3s;
+    }
+
+        .btn-confirm-payment:hover {
+            background: #27ae60;
+        }
+
+    .payment-approved {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #2ecc71;
+        font-weight: 600;
+        padding: 10px;
+        background: #e8f5e9;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        overflow-y: auto;
+    }
+
+    .modal-content {
+        background: white;
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 600px;
+    }
+
+    .close {
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #aaa;
+    }
+
+        .close:hover {
+            color: #000;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .booking-summary {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2ecc71;
+            padding-top: 15px;
+        }
+
+    .discount-applied {
+        color: #e74c3c;
+        font-weight: 600;
+    }
+
+    /* Add missing CSS classes */
+    .d-flex {
+        display: flex !important;
+    }
+
+    .justify-content-end {
+        justify-content: flex-end !important;
+    }
+
+    .gap-3 {
+        gap: 1rem !important;
+    }
+
+    .mt-4 {
+        margin-top: 1.5rem !important;
+    }
+
+    .btn {
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+    }
+
+    .btn-secondary {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            color: #fff;
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    /* Fix for modal visibility */
+    .modal.active {
+        display: block;
+    }
+</style>
+
+<div class="client-header">
+    <h1>🚗 Welcome to Car Rental</h1>
+    <p>Browse our fleet and book your perfect vehicle</p>
+</div>
+
+<div class="promo-banner">
+    <div class="promo-icon">🎉</div>
+    <div class="promo-text">
+        <div class="promo-title">Special Promotion!</div>
+        <p class="promo-description">Book 3 or more cars and get 20% discount on your total booking!</p>
+    </div>
+</div>
+
+<!-- Available Cars Section -->
+<div class="cars-section">
+    <h2>Available Cars</h2>
+    <div class="car-grid">
+        @foreach (var car in Model.AvailableCars)
+        {
+            <div class="car-card">
+                <img src="@(string.IsNullOrEmpty(car.ImageUrl) ? "/images/car-placeholder.jpg" : car.ImageUrl)"
+                     alt="@car.Brand @car.Model"
+                     class="car-image">
+                <div class="car-body">
+                    <div class="car-title">@car.Brand @car.Model</div>
+                    <div class="car-specs">
+                        📅 Year: @car.Year<br />
+                        🎨 Color: @car.Color<br />
+                        🔢 Plate: @car.PlateNumber<br />
+                        📝 @car.Specifications
+                    </div>
+                    <div class="car-price">
+                        @car.DailyRateRWF.ToString("N0") RWF
+                        <small>/day</small>
+                    </div>
+                    <button class="btn-book" onclick="openBookingModal(@car.Id, '@car.Brand @car.Model', @car.DailyRateRWF)">
+                        Book Now
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- My Bookings Section -->
+<div class="my-bookings">
+    <h2>My Bookings</h2>
+    @if (Model.MyBookings.Count == 0)
+    {
+        <p style="text-align: center; color: #7f8c8d; padding: 40px 0;">
+            You haven't made any bookings yet. Start by booking a car above!
+        </p>
+    }
+    else
+    {
+        @foreach (var booking in Model.MyBookings)
+        {
+            <div class="booking-card" id="booking-@booking.Id">
+                <div class="booking-header">
+                    <div class="booking-title">@booking.CarBrand @booking.CarModel</div>
+                    <span class="status-badge status-@booking.Status.ToLower()">@booking.Status</span>
+                </div>
+
+                <div class="booking-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Start Date</span>
+                        <span class="detail-value">@booking.StartDate.ToString("MMM dd, yyyy")</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">End Date</span>
+                        <span class="detail-value">@booking.EndDate.ToString("MMM dd, yyyy")</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Total Amount</span>
+                        <span class="detail-value total-amount">@booking.TotalAmount.ToString("N0") RWF</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Deposit (20%)</span>
+                        <span class="detail-value deposit-amount">@booking.DepositAmount.ToString("N0") RWF</span>
+                    </div>
+                </div>
+
+                @if (booking.DiscountApplied)
+                {
+                    <div style="color: #e74c3c; font-weight: 600; margin: 10px 0;">
+                        ✨ 20% Discount Applied!
+                    </div>
+                }
+
+                <div class="payment-section">
+                    <strong>Payment Information:</strong>
+                    <div class="payment-code-box">
+                        <div style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 5px;">Payment Code</div>
+                        <div class="payment-code">@booking.PaymentCode</div>
+                    </div>
+
+                    @if (!booking.DepositPaid)
+                    {
+                        <div style="text-align: center;">
+                            <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 10px;">
+                                Pay the deposit using the code above, then confirm your payment
+                            </p>
+                            <button class="btn-confirm-payment" onclick="confirmPayment(@booking.Id, 'Deposit')">
+                                ✓ I've Paid the Deposit
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="payment-approved">
+                            <span style="font-size: 1.5rem;">✓</span>
+                            <span>Deposit Payment Approved</span>
+                        </div>
+
+                        @if (booking.Status == "Approved" && !booking.FullPaymentPaid)
+                        {
+                            <div style="text-align: center; margin-top: 15px;">
+                                @{
+                                    var remainingAmount = booking.TotalAmount - booking.DepositAmount;
+                                }
+                                <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 10px;">
+                                    Pay the remaining amount: @remainingAmount.ToString("N0") RWF
+                                </p>
+                                <button class="btn-confirm-payment" onclick="confirmPayment(@booking.Id, 'Full')">
+                                    ✓ I've Paid Full Amount
+                                </button>
+                            </div>
+                        }
+
+                        @if (booking.FullPaymentPaid)
+                        {
+                            <div class="payment-approved">
+                                <span style="font-size: 1.5rem;">✓</span>
+                                <span>Full Payment Approved - Booking Complete!</span>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<!-- Booking Modal -->
+<div id="bookingModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeBookingModal()">&times;</span>
+        <h2>Book Your Car</h2>
+        <form method="post" asp-page-handler="CreateBooking" id="bookingForm">
+            <input type="hidden" name="CarId" id="carId">
+
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                <h4 id="selectedCar" style="margin: 0; color: #2c3e50;"></h4>
+                <div style="color: #7f8c8d; margin-top: 5px;">
+                    <span id="dailyRate"></span> RWF/day
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Start Date</label>
+                <input type="date" name="StartDate" id="startDate" class="form-control" required onchange="calculateTotal()">
+            </div>
+
+            <div class="form-group">
+                <label>End Date</label>
+                <input type="date" name="EndDate" id="endDate" class="form-control" required onchange="calculateTotal()">
+            </div>
+
+            <div class="form-group">
+                <label>Number of Cars</label>
+                <input type="number" name="TotalCars" id="totalCars" class="form-control" min="1" value="1" required onchange="calculateTotal()">
+                <small style="color: #7f8c8d;">Book 3 or more cars to get 20% discount!</small>
+            </div>
+
+            <div class="booking-summary" id="bookingSummary" style="display: none;">
+                <div class="summary-row">
+                    <span>Days:</span>
+                    <span id="numDays">0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Cars:</span>
+                    <span id="numCars">1</span>
+                </div>
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">0 RWF</span>
+                </div>
+                <div class="summary-row" id="discountRow" style="display: none;">
+                    <span class="discount-applied">Discount (20%):</span>
+                    <span class="discount-applied" id="discount">0 RWF</span>
+                </div>
+                <div class="summary-row">
+                    <span>Total Amount:</span>
+                    <span id="totalAmount">0 RWF</span>
+                </div>
+                <div class="summary-row">
+                    <span>Deposit (20%):</span>
+                    <span id="depositAmount">0 RWF</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-book" style="margin-top: 20px;">
+                Confirm Booking
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Payment Confirmation Modal (Added) -->
+<div id="paymentConfirmationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closePaymentConfirmationModal()">&times;</span>
+        <h2>Confirm Payment</h2>
+        <p>You are about to confirm payment for the <strong id="paymentTypeDisplay"></strong> amount.</p>
+        <p>Amount: <strong id="paymentAmountDisplay"></strong> RWF</p>
+
+        <p style="color: #e74c3c; font-weight: 600;">
+            WARNING: Ensure payment has been submitted and processed on your end before confirming.
+        </p>
+
+        <form method="post" asp-page-handler="ConfirmPayment" id="paymentConfirmForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="bookingId" id="paymentBookingIdInput">
+            <input type="hidden" name="paymentType" id="paymentTypeInput">
+            <div class="d-flex justify-content-end gap-3 mt-4">
+                <button type="button" class="btn btn-secondary" onclick="closePaymentConfirmationModal()">Cancel</button>
+                <button type="submit" class="btn-confirm-payment">Confirm Payment</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    let currentDailyRate = 0;
+
+    function openBookingModal(carId, carName, dailyRate) {
+        document.getElementById('carId').value = carId;
+        document.getElementById('selectedCar').textContent = carName;
+        document.getElementById('dailyRate').textContent = dailyRate.toFixed(0);
+        currentDailyRate = dailyRate;
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('startDate').min = today;
+        document.getElementById('endDate').min = today;
+
+        // Clear previous values
+        document.getElementById('startDate').value = '';
+        document.getElementById('endDate').value = '';
+        document.getElementById('totalCars').value = '1';
+        document.getElementById('bookingSummary').style.display = 'none';
+
+        document.getElementById('bookingModal').style.display = 'block';
+    }
+
+    function closeBookingModal() {
+        document.getElementById('bookingModal').style.display = 'none';
+    }
+
+    function calculateTotal() {
+        const startDate = new Date(document.getElementById('startDate').value);
+        const endDate = new Date(document.getElementById('endDate').value);
+        const totalCars = parseInt(document.getElementById('totalCars').value) || 1;
+
+        if (startDate && endDate && endDate >= startDate) {
+            const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+            const subtotal = days * currentDailyRate * totalCars;
+            const hasDiscount = totalCars >= 3;
+            const discount = hasDiscount ? subtotal * 0.2 : 0;
+            const total = subtotal - discount;
+            const deposit = total * 0.2;
+
+            // Helper function for formatting numbers
+            const formatRWF = (value) => value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+            document.getElementById('numDays').textContent = days;
+            document.getElementById('numCars').textContent = totalCars;
+            document.getElementById('subtotal').textContent = formatRWF(subtotal) + ' RWF';
+            document.getElementById('totalAmount').textContent = formatRWF(total) + ' RWF';
+            document.getElementById('depositAmount').textContent = formatRWF(deposit) + ' RWF';
+
+            if (hasDiscount) {
+                document.getElementById('discount').textContent = '-' + formatRWF(discount) + ' RWF';
+                document.getElementById('discountRow').style.display = 'flex';
+            } else {
+                document.getElementById('discountRow').style.display = 'none';
+            }
+
+            document.getElementById('bookingSummary').style.display = 'block';
+        }
+    }
+
+    // Opens the payment confirmation modal
+    function openPaymentConfirmationModal(bookingId, paymentType, amount) {
+        document.getElementById('paymentBookingIdInput').value = bookingId;
+        document.getElementById('paymentTypeInput').value = paymentType;
+        document.getElementById('paymentTypeDisplay').textContent = paymentType;
+        document.getElementById('paymentAmountDisplay').textContent = amount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        document.getElementById('paymentConfirmationModal').style.display = 'block';
+    }
+
+    function closePaymentConfirmationModal() {
+        document.getElementById('paymentConfirmationModal').style.display = 'none';
+    }
+
+    // FIXED: Function to handle payment confirmation
+    function confirmPayment(bookingId, paymentType) {
+        // Find the booking card by ID
+        const bookingCard = document.getElementById(`booking-${bookingId}`);
+
+        if (!bookingCard) {
+            alert('Booking not found!');
+            return;
+        }
+
+        let amount = 0;
+
+        if (paymentType === 'Deposit') {
+            const depositElement = bookingCard.querySelector('.deposit-amount');
+            if (depositElement) {
+                const depositText = depositElement.textContent.trim();
+                amount = parseFloat(depositText.replace(/[^\d.]/g, '')) || 0;
+            }
+        } else if (paymentType === 'Full') {
+            const totalElement = bookingCard.querySelector('.total-amount');
+            const depositElement = bookingCard.querySelector('.deposit-amount');
+
+            if (totalElement && depositElement) {
+                const totalText = totalElement.textContent.trim();
+                const depositText = depositElement.textContent.trim();
+
+                const total = parseFloat(totalText.replace(/[^\d.]/g, '')) || 0;
+                const deposit = parseFloat(depositText.replace(/[^\d.]/g, '')) || 0;
+                amount = total - deposit;
+            }
+        }
+
+        if (amount > 0) {
+            openPaymentConfirmationModal(bookingId, paymentType, amount);
+        } else {
+            alert('Unable to calculate payment amount. Please try again.');
+        }
+    }
+
+    window.onclick = function(event) {
+        const bookingModal = document.getElementById('bookingModal');
+        const confirmModal = document.getElementById('paymentConfirmationModal');
+
+        if (event.target == bookingModal) {
+            bookingModal.style.display = "none";
+        }
+        if (event.target == confirmModal) {
+            confirmModal.style.display = "none";
+        }
+    }
+
+    // Add date validation
+    document.addEventListener('DOMContentLoaded', function() {
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+
+        if (startDateInput && endDateInput) {
+            startDateInput.addEventListener('change', function() {
+                const startDate = new Date(this.value);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                if (startDate < today) {
+                    alert('Start date cannot be in the past!');
+                    this.value = '';
+                } else if (endDateInput.value && new Date(endDateInput.value) <= startDate) {
+                    alert('End date must be after start date!');
+                    endDateInput.value = '';
+                }
+            });
+
+            endDateInput.addEventListener('change', function() {
+                const endDate = new Date(this.value);
+                const startDate = new Date(startDateInput.value);
+
+                if (startDateInput.value && endDate <= startDate) {
+                    alert('End date must be after start date!');
+                    this.value = '';
+                }
+            });
+        }
+    });
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
